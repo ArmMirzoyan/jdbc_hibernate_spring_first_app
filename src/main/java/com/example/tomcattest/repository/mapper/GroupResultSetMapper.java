@@ -2,10 +2,12 @@ package com.example.tomcattest.repository.mapper;
 
 
 import com.example.tomcattest.model.Group;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Component
 public class GroupResultSetMapper {
 
         public static final String COLUMN_ID = "id";

@@ -2,10 +2,12 @@ package com.example.tomcattest.repository.mapper;
 
 import com.example.tomcattest.model.Item;
 import com.example.tomcattest.model.StockItem;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Component
 public class ItemResultSetMapper {
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_NAME = "name";

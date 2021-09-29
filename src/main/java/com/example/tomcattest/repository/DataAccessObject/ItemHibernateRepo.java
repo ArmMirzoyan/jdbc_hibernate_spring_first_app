@@ -5,10 +5,11 @@ import com.example.tomcattest.repository.config.ApplicationContext;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-
+@Component
 public class ItemHibernateRepo {
 
 
