@@ -20,7 +20,6 @@ public class ItemHibernateRepository {
         hibernateItemRepo.add(item);
     }
 
-
     public static void deleteById(int id) {
         hibernateItemRepo.deleteById(id);
     }
