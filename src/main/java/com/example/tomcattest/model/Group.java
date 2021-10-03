@@ -1,7 +1,6 @@
 package com.example.tomcattest.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -9,30 +8,25 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "group")
+@Table(name = "group") // table name is "group" for PostgreSQL
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "group_id_seq")
     @SequenceGenerator(name = "group_id_seq", sequenceName = "group_id_seq", allocationSize = 1)
-    @Column(name = "id")
-    private long id;
+    private Long id;
+
     @Column(name = "name")
     private String name;
-//    @Transient
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "parentGroup")
-    @JsonManagedReference
-    private Group parentGroup;
-    //    @Transient
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "subGroups")
-    @JsonBackReference
-    private List<Group> subGroups = new ArrayList<>();
-    //    @Transient
     @OneToMany(mappedBy = "group")
-    @JoinColumn(name = "parent")
+    @JsonIgnore
     private List<Item> items = new ArrayList<>();
+
+    @Transient
+    private Group parentGroup;
+
+    @Transient
+    private final List<Group> subGroups = new ArrayList<>();
 
     public Group() {
     }
@@ -42,16 +36,32 @@ public class Group {
         this.name = name;
     }
 
-    public long getId() {
-        return this.id;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Group getParentGroup() {
         return parentGroup;
+    }
+
+    public List<Item> getItems() {
+        return new ArrayList<>(items);
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 
     void setParentGroup(Group parentGroup) {
@@ -71,28 +81,6 @@ public class Group {
     public void addItems(List<Item> items) {
         for (Item item : items) {
             addItem(item);
-        }
-    }
-
-    public void print(int level) {
-        System.out.printf("GROUP - id: {%d} {%s}%n", id, name);
-        printSubGroups(++level);
-        printItems(level);
-    }
-
-    private void printSubGroups(int level) {
-//        String subLevelPrefix = "  ".repeat(level);
-        for (Group group : subGroups) {
-//            System.out.print(subLevelPrefix);
-            group.print(level);
-        }
-    }
-
-    private void printItems(int level) {
-//        String subLevelPrefix = "  ".repeat(level);
-        for (Item item : items) {
-//            System.out.print(subLevelPrefix);
-            item.print();
         }
     }
 

@@ -1,49 +1,40 @@
 package com.example.tomcattest.controllers;
 
-import com.example.tomcattest.model.Item;
+import com.example.tomcattest.servise.ItemDTO;
 import com.example.tomcattest.servise.ItemService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/items")
+@RequestMapping("/item")
 public class ItemController {
 
     private final ItemService itemService;
 
-    public ItemController(ItemService itemService){
+    public ItemController(ItemService itemService) {
         this.itemService = itemService;
     }
 
-    @PostMapping
-    public void add(Item item) {
-        itemService.add(item);
-    }
-
     @GetMapping
-    public List<Item> getAll() {
+    public List<? extends ItemDTO> getAll() {
         return itemService.getAll();
     }
 
-    @DeleteMapping("/{id}")
-    public void removeById(int id) {
-        itemService.deleteById(id);
+    @GetMapping("/search")
+    public List<? extends ItemDTO> search(@RequestParam String name) {
+        return itemService.find(name);
     }
 
     @GetMapping("/{id}")
-    public Item getById(int id) {
-        return itemService.getById(id);
+    public ResponseEntity<ItemDTO> getItem(@PathVariable Long id) {
+        return ResponseEntity.of(itemService.getItem(id));
     }
 
-    @PutMapping("/{id}")
-    public void updateById(Item item) {
-        itemService.updateById(item);
+    @PostMapping
+    public @ResponseBody ItemDTO create(@RequestBody @Valid ItemDTO itemDTO) {
+        return itemService.create(itemDTO);
     }
-
-    @PostMapping("{/id}")
-    public void deleteById(int id) {
-        itemService.deleteById(id);
-    }
-
 }

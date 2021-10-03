@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"com.example.tomcattest"})
+@ComponentScan(basePackages = {"java"})
 public class WebConfig implements WebMvcConfigurer {
 
     @Override

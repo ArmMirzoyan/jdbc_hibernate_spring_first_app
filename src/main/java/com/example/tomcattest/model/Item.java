@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "item")
-public abstract class Item {
+public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_id_seq")
     @SequenceGenerator(name = "item_id_seq", sequenceName = "item_id_seq", allocationSize = 1)
@@ -94,7 +94,22 @@ public abstract class Item {
         this.group = group;
     }
 
-    public abstract int calculatePrice(Configuration configuration);
+    public Group getGroup() {
+        return group;
+    }
+
+    public ItemDetails getItemDetail() {
+        return itemDetails;
+    }
+
+    public void setItemDetail(ItemDetails itemDetails) {
+        this.itemDetails = itemDetails;
+    }
+
+    public int calculatePrice(Configuration configuration) {
+//        will be written later
+        return 0;
+    }
 
     public void print() {
         System.out.printf("ITEM(%s) - id: {%d} {%s} {%d}%n",

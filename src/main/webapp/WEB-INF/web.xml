@@ -5,12 +5,12 @@
          http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
-    <!--    <display-name>CreateItem</display-name>-->
+<!--        <display-name>CreateItem</display-name>-->
 
-    <!--    <servlet>-->
-    <!--        <servlet-name>ItemServlet</servlet-name>-->
-    <!--        <servlet-class>com.example.tomcattest.servlet.ItemServlet</servlet-class>-->
-    <!--    </servlet>-->
+<!--        <servlet>-->
+<!--            <servlet-name>ItemServlet</servlet-name>-->
+<!--            <servlet-class>com.example.tomcattest.servlet.ItemServlet</servlet-class>-->
+<!--        </servlet>-->
 
     <!--    <servlet-mapping>-->
     <!--        <servlet-name>ItemServlet</servlet-name>-->

@@ -1,47 +1,70 @@
 package com.example.tomcattest.servise;
 
 import com.example.tomcattest.model.Item;
-import com.example.tomcattest.repository.ItemHibernateRepository;
-import org.springframework.stereotype.Component;
+import com.example.tomcattest.repository.ItemRepository;
+import com.example.tomcattest.servise.mapper.ItemDTOMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
-@Component("itemServiceImpl")
-public class ItemServiceImpl implements ItemService{
+@Service
+public class ItemServiceImpl implements ItemService {
 
-    private ItemHibernateRepository itemHibernateRepository;
+    private final ItemRepository itemRepository;
 
-    public ItemServiceImpl(ItemHibernateRepository itemHibernateRepository){
-        this.itemHibernateRepository = itemHibernateRepository;
+    @Autowired
+    public ItemServiceImpl(ItemRepository itemRepository) {
+        this.itemRepository = itemRepository;
     }
 
     @Override
-    public void add(Item item) {
-        itemHibernateRepository.save(item);
+    @Transactional
+    public ItemDTO create(ItemDTO item) {
+        Item entity = ItemDTOMapper.mapToEntity(item);
+
+        itemRepository.save(entity);
+
+        return ItemDTOMapper.mapToDTO(entity).orElse(null);
     }
 
     @Override
-    public List<Item> getAll() {
-        return itemHibernateRepository.getAll();
+    public Item update(Item item) {
+        return itemRepository.save(item);
     }
 
     @Override
-    public void removeById(int id) {
-        itemHibernateRepository.deleteById(id);
+    public boolean delete(Long id) {
+        if (!itemRepository.existsById(id)) {
+            return false;
+        }
+
+        itemRepository.deleteById(id);
+
+        return true;
     }
 
     @Override
-    public Item getById(int id) {
-        return itemHibernateRepository.getById(id);
+    public Optional<ItemDTO> getItem(Long id) {
+        Optional<Item> item = itemRepository.findById(id);
+
+        return ItemDTOMapper.mapToDTO(item.orElse(null));
     }
 
     @Override
-    public void updateById(Item item) {
-        itemHibernateRepository.updateById(item);
+    public List<? extends ItemDTO> getAll() {
+        return ItemDTOMapper.mapToDTOs(itemRepository.findAll());
     }
 
     @Override
-    public void deleteById(int id) {
-        itemHibernateRepository.deleteById(id);
+    public List<? extends ItemDTO> find(String name) {
+        Specification<Item> specification = Specification.where(null);
+
+        return ItemDTOMapper
+                .mapToDTOs(itemRepository
+                        .find(name, 300));
     }
 }
