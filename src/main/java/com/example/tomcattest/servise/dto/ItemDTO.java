@@ -1,5 +1,6 @@
 package com.example.tomcattest.servise.dto;
 
+import com.example.tomcattest.model.Configuration;
 import com.example.tomcattest.servise.ItemDetailsDTO;
 
 import javax.validation.constraints.*;
@@ -17,6 +18,35 @@ public class ItemDTO {
     @NotNull
     private ItemDetailsDTO itemDetails;
     private String groupName;
+    private String currency;
+    private String image_url;
+    private Configuration configuration;
+    private GroupDTO parentDTO;
+    private int parentGroup;
+
+    public ItemDTO() {
+    }
+
+    public ItemDTO(String name, Integer basePrice, String image_url, String currency) {
+        this.name = name;
+        this.image_url = image_url;
+        this.basePrice = basePrice;
+        this.currency = currency;
+    }
+
+    public ItemDTO(String name, Integer basePrice, String image_url) {
+        this.name = name;
+        this.basePrice = basePrice;
+        this.image_url = image_url;
+    }
+
+    public ItemDTO(String name, Integer basePrice, String image_url, String currency, Configuration configuration) {
+        this.name = name;
+        this.basePrice = basePrice;
+        this.image_url = image_url;
+        this.currency = currency;
+        this.configuration = configuration;
+    }
 
     public Long getId() {
         return id;
@@ -56,6 +86,46 @@ public class ItemDTO {
 
     public void setGroupName(String groupName) {
         this.groupName = groupName;
+    }
+
+    public int getParentGroup() {
+        return parentGroup;
+    }
+
+    public void setParentGroup(int parentGroup) {
+        this.parentGroup = parentGroup;
+    }
+
+    public GroupDTO getParentDTO() {
+        return parentDTO;
+    }
+
+    public void setParentDTO(GroupDTO parentDTO) {
+        this.parentDTO = parentDTO;
+    }
+
+    public Configuration getConfiguration() {
+        return configuration;
+    }
+
+    public void setConfiguration(Configuration configuration) {
+        this.configuration = configuration;
+    }
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     @Override
