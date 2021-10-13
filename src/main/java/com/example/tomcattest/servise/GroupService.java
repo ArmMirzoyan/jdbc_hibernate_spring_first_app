@@ -1,17 +1,19 @@
 package com.example.tomcattest.servise;
 
-import com.example.tomcattest.model.Group;
+import com.example.tomcattest.servise.dto.GroupDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 public interface GroupService {
-    void add(Group group);
+    GroupDTO save(GroupDTO group);
 
-    List<Group> getAll();
+    List<GroupDTO> getAll();
 
-    void removeById(int id);
+    void removeById(Long id);
 
-    Group getById(int id);
+    GroupDTO saveById(Long id);
+
+    GroupDTO updateById(Long id, GroupDTO group);
 }

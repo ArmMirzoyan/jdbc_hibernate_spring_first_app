@@ -3,7 +3,7 @@ CREATE TABLE "group"
 (
     id     INT PRIMARY KEY,
     name   varchar(255) NOT NULL,
-    parent INT REFERENCES "group" (id)
+    parentDTO INT REFERENCES "group" (id)
 );
 ALTER TABLE "group"
     ADD FOREIGN KEY (id) REFERENCES item (id);

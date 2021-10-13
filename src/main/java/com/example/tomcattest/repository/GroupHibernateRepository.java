@@ -21,11 +21,11 @@ public class GroupHibernateRepository {
         groupHibernateRepo.add(group);
     }
 
-    public static void removeById(int id) {
+    public static void removeById(Long id) {
         groupHibernateRepo.deleteById(id);
     }
 
-    public static Group getById(int id) {
+    public static Group getById(Long id) {
         return groupHibernateRepo.getById(id);
     }
 

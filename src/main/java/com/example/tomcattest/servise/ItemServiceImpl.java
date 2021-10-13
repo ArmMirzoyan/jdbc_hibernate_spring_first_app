@@ -2,7 +2,9 @@ package com.example.tomcattest.servise;
 
 import com.example.tomcattest.model.Item;
 import com.example.tomcattest.repository.ItemRepository;
-import com.example.tomcattest.servise.mapper.ItemDTOMapper;
+import com.example.tomcattest.repository.mapper.ItemMapper;
+import com.example.tomcattest.servise.dto.ItemDTO;
+import com.example.tomcattest.repository.mapper.ItemDTOMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -14,20 +16,23 @@ import java.util.Optional;
 @Service
 public class ItemServiceImpl implements ItemService {
 
-    private final ItemRepository itemRepository;
+    private ItemRepository itemRepository;
+    private ItemMapper itemMapper;
+
+    public ItemServiceImpl() {
+    }
 
     @Autowired
-    public ItemServiceImpl(ItemRepository itemRepository) {
+    public ItemServiceImpl(ItemRepository itemRepository, ItemMapper itemMapper) {
         this.itemRepository = itemRepository;
+        this.itemMapper = itemMapper;
     }
 
     @Override
     @Transactional
-    public ItemDTO create(ItemDTO item) {
-        Item entity = ItemDTOMapper.mapToEntity(item);
-
+    public ItemDTO create(ItemDTO itemDTO) {
+        Item entity = itemMapper.mapToItem(itemDTO);
         itemRepository.save(entity);
-
         return ItemDTOMapper.mapToDTO(entity).orElse(null);
     }
 
@@ -55,7 +60,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<? extends ItemDTO> getAll() {
+    public List<? extends ItemDTO> getAll() { // must be custom pageable code
         return ItemDTOMapper.mapToDTOs(itemRepository.findAll());
     }
 

@@ -1,6 +1,6 @@
 package com.example.tomcattest.mock;
 
-import com.example.tomcattest.model.GenerativeItem;
+import com.example.tomcattest.model.Generactive;
 import com.example.tomcattest.model.Item;
 import com.example.tomcattest.model.StockItem;
 import com.example.tomcattest.util.idgenerator.IdGenerator;
@@ -22,8 +22,8 @@ public final class ItemMock {
 
     public static Item getItem(Class<? extends Item> clazz) {
         Item item;
-        if (clazz == GenerativeItem.class) {
-            item = new GenerativeItem(IdGenerator.getNext(Type.GROUP),
+        if (clazz == Generactive.class) {
+            item = new Generactive(IdGenerator.getNext(Type.GROUP),
                     generateRandomPrice(), NAME_GEN.get());
         } else {
             item =  new StockItem(IdGenerator.getNext(Type.GROUP),
@@ -36,7 +36,7 @@ public final class ItemMock {
     public static List<Item> getItems(int count) {
         List<Item> rv = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            rv.add(getItem(i % 2 == 0 ? GenerativeItem.class : StockItem.class));
+            rv.add(getItem(i % 2 == 0 ? Generactive.class : StockItem.class));
         }
 
         return rv;

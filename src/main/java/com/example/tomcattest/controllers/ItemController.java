@@ -1,7 +1,8 @@
 package com.example.tomcattest.controllers;
 
-import com.example.tomcattest.servise.ItemDTO;
 import com.example.tomcattest.servise.ItemService;
+import com.example.tomcattest.servise.dto.ItemDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,12 +15,13 @@ public class ItemController {
 
     private final ItemService itemService;
 
+    @Autowired
     public ItemController(ItemService itemService) {
         this.itemService = itemService;
     }
 
     @GetMapping
-    public List<? extends ItemDTO> getAll() {
+    public List<? extends ItemDTO> getAll() { //must be offset and limit
         return itemService.getAll();
     }
 
@@ -33,6 +35,10 @@ public class ItemController {
         return ResponseEntity.of(itemService.getItem(id));
     }
 
+    @PutMapping("/{id}")
+    public ItemDTO updateById(@RequestBody ItemDTO itemDTO) {
+        return itemService.create(itemDTO);
+    }
     @PostMapping
     public @ResponseBody ItemDTO create(@RequestBody @Valid ItemDTO itemDTO) {
         return itemService.create(itemDTO);

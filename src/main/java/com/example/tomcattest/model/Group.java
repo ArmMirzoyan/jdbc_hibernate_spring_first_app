@@ -1,6 +1,7 @@
 package com.example.tomcattest.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -18,15 +19,19 @@ public class Group {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "group")
-    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "parentGroup")
     private List<Item> items = new ArrayList<>();
 
-    @Transient
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "parentGroup")
+    @JsonBackReference
     private Group parentGroup;
 
-    @Transient
-    private final List<Group> subGroups = new ArrayList<>();
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "parentGroup")
+    @JsonManagedReference
+    private List<Group> subGroups = new ArrayList<>();
 
     public Group() {
     }
@@ -34,6 +39,8 @@ public class Group {
     public Group(long id, String name) {
         this.id = id;
         this.name = name;
+        this.subGroups = new ArrayList<>();
+        this.items = new ArrayList<>();
     }
 
     public Long getId() {
@@ -52,20 +59,25 @@ public class Group {
         this.name = name;
     }
 
-    public Group getParentGroup() {
-        return parentGroup;
-    }
-
     public List<Item> getItems() {
-        return new ArrayList<>(items);
+        return items;
     }
 
     public void setItems(List<Item> items) {
         this.items = items;
     }
 
-    void setParentGroup(Group parentGroup) {
+    public void addItem(Item item) {
+        this.items.add(item);
+        item.setParentGroup(this);
+    }
+
+    public void setParentGroup(Group parentGroup) {
         this.parentGroup = parentGroup;
+    }
+
+    public Group getParentGroup() {
+        return parentGroup;
     }
 
     public void addSubGroup(Group group) {
@@ -73,9 +85,12 @@ public class Group {
         group.setParentGroup(this);
     }
 
-    public void addItem(Item item) {
-        this.items.add(item);
-        item.setGroup(this);
+    public void setSubGroups(List<Group> groups) {
+        this.subGroups = groups;
+    }
+
+    public List<Group> getSubGroups() {
+        return subGroups;
     }
 
     public void addItems(List<Item> items) {
@@ -103,7 +118,7 @@ public class Group {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", parentGroup=" + parentGroup +
-                ", subGroups=" + subGroups +
+                ", groups=" + subGroups +
                 ", items=" + items +
                 '}';
     }

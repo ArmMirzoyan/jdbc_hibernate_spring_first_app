@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ItemRepository extends JpaRepository<Item, Long>, JpaSpecificationExecutor<Item> {
 
-    @Query("select i from Item i join fetch i.group" +
+    @Query("select i from Item i join fetch i.parentGroup" +
             " where lower(i.name) = lower(:name)" +
             " and i.basePrice > :priceFrom")
     List<Item> find(@Param("name") String name, @Param("priceFrom") Integer priceFrom);

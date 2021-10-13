@@ -1,7 +1,8 @@
 package com.example.tomcattest.controllers;
 
-import com.example.tomcattest.model.Group;
 import com.example.tomcattest.servise.GroupService;
+import com.example.tomcattest.servise.dto.GroupDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,27 +12,33 @@ import java.util.List;
 public class GroupController {
     private final GroupService groupService;
 
+    @Autowired
     public GroupController(GroupService groupService) {
         this.groupService = groupService;
     }
 
     @PostMapping
-    public void add(Group group) {
-        groupService.add(group);
+    public GroupDTO save(@RequestBody GroupDTO group) {
+        return groupService.save(group);
     }
 
     @GetMapping
-    public List<Group> getAll() {
+    public List<GroupDTO> getAll() {
         return groupService.getAll();
     }
 
+    @PutMapping("/{id}")
+    public GroupDTO updateById(@PathVariable Long id, @RequestBody GroupDTO updatedGroup) {
+        return groupService.updateById(id, updatedGroup);
+    }
+
     @DeleteMapping("/{id}")
-    public void removeById(int id) {
+    public void removeById(Long id) {
         groupService.removeById(id);
     }
 
     @GetMapping("/{id}")
-    public Group getById(int id) {
-        return groupService.getById(id);
+    public GroupDTO getById(Long id) {
+        return groupService.saveById(id);
     }
 }

@@ -14,7 +14,7 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_id_seq")
     @SequenceGenerator(name = "item_id_seq", sequenceName = "item_id_seq", allocationSize = 1)
     @Column(name = "id")
-    private long id;
+    private Long id;
     @Column(name = "base_price")
     private int basePrice;
     @Column(name = "name")
@@ -23,16 +23,16 @@ public class Item {
     private String currency;
     @Column(name = "imageUrl")
     private String imageUrl;
-//    @Transient
+    //    @Transient
 //    @OneToMany (fetch = FetchType.EAGER)
 //    @JoinTable (name="items_groups",
 //            joinColumns=@JoinColumn (name="item_id", refereCN="id"),
 //            inverseJoinColumns=@JoinColumn(name="group_id", refereCN="id"))
     //list mtm, @jointable,
     @ManyToOne
-    @JoinColumn(name = "group_id")
+    @JoinColumn(name = "parentGroup")
     @JsonBackReference
-    private Group group;
+    private Group parentGroup;
 
     @OneToOne(mappedBy = "item", cascade = CascadeType.ALL)
 //            orphanRemoval = true)
@@ -45,17 +45,30 @@ public class Item {
 
     }
 
-    public Item(long id, int basePrice, String name) {
-        this.id = id;
+    public Item(int basePrice, String name) {
         this.basePrice = basePrice;
         this.name = name;
     }
 
-    public Item(long id, int basePrice, String currency, String name) {
-        this.id = id;
+    public Item(int basePrice, String currency, String name) {
         this.basePrice = basePrice;
         this.currency = currency;
         this.name = name;
+    }
+
+    public Item(int basePrice, String currency, String name, String imageUrl) {
+        this.basePrice = basePrice;
+        this.currency = currency;
+        this.name = name;
+        this.imageUrl = imageUrl;
+    }
+
+    public Item(int basePrice, String currency, String name, String imageUrl, Group parentGroup) {
+        this.basePrice = basePrice;
+        this.currency = currency;
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.parentGroup = parentGroup;
     }
 
     public long getId() {
@@ -90,12 +103,12 @@ public class Item {
         this.name = name;
     }
 
-    void setGroup(Group group) {
-        this.group = group;
+    public void setParentGroup(Group parentGroup) {
+        this.parentGroup = parentGroup;
     }
 
-    public Group getGroup() {
-        return group;
+    public Group getParentGroup() {
+        return parentGroup;
     }
 
     public ItemDetails getItemDetail() {
@@ -106,8 +119,23 @@ public class Item {
         this.itemDetails = itemDetails;
     }
 
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getImage_url() {
+        return imageUrl;
+    }
+
     public int calculatePrice(Configuration configuration) {
-//        will be written later
+        switch (configuration.getResolution()) {
+            case HD:
+                return this.getBasePrice();
+            case FHD:
+                return this.getBasePrice() * 2;
+            case _4K:
+                return this.getBasePrice() * 4;
+        }
         return 0;
     }
 
@@ -137,8 +165,7 @@ public class Item {
                 ", currency = " + currency +
                 ", name = '" + name + '\'' +
                 ", imageUrl = '" + imageUrl + '\'' +
-                ", group = " + group +
+                ", group = " + parentGroup +
                 '}';
     }
-
 }

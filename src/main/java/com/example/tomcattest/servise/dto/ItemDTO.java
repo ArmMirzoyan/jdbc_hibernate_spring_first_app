@@ -1,7 +1,6 @@
 package com.example.tomcattest.servise.dto;
 
 import com.example.tomcattest.model.Configuration;
-import com.example.tomcattest.servise.ItemDetailsDTO;
 
 import javax.validation.constraints.*;
 import java.util.Objects;
