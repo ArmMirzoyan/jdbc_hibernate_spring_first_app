@@ -13,6 +13,6 @@ public interface ItemService {
     Item update(Item item);
     boolean delete(Long id);
     Optional<ItemDTO> getItem(Long id);
-    List<? extends ItemDTO> getAll();
+    List<? extends ItemDTO> getAll(int offset, int limit , String sortBy);
     List<? extends ItemDTO> find(String name);
 }

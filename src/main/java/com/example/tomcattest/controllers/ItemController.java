@@ -21,8 +21,10 @@ public class ItemController {
     }
 
     @GetMapping
-    public List<? extends ItemDTO> getAll() { //must be offset and limit
-        return itemService.getAll();
+    public List<? extends ItemDTO> getAll(@RequestParam int offset,
+                                          @RequestParam int limit,
+                                          @RequestParam(required = false) String sortBy) {
+        return itemService.getAll(offset, limit, sortBy);
     }
 
     @GetMapping("/search")
@@ -39,8 +41,10 @@ public class ItemController {
     public ItemDTO updateById(@RequestBody ItemDTO itemDTO) {
         return itemService.create(itemDTO);
     }
+
     @PostMapping
-    public @ResponseBody ItemDTO create(@RequestBody @Valid ItemDTO itemDTO) {
+    public @ResponseBody
+    ItemDTO create(@RequestBody @Valid ItemDTO itemDTO) {
         return itemService.create(itemDTO);
     }
 }
