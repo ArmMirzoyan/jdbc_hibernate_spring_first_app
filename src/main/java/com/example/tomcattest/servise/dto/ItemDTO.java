@@ -26,17 +26,17 @@ public class ItemDTO {
     public ItemDTO() {
     }
 
+    public ItemDTO(String name, Integer basePrice, String image_url) {
+        this.name = name;
+        this.basePrice = basePrice;
+        this.image_url = image_url;
+    }
+
     public ItemDTO(String name, Integer basePrice, String image_url, String currency) {
         this.name = name;
         this.image_url = image_url;
         this.basePrice = basePrice;
         this.currency = currency;
-    }
-
-    public ItemDTO(String name, Integer basePrice, String image_url) {
-        this.name = name;
-        this.basePrice = basePrice;
-        this.image_url = image_url;
     }
 
     public ItemDTO(String name, Integer basePrice, String image_url, String currency, Configuration configuration) {
