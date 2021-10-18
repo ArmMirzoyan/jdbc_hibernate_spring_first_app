@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -46,5 +47,10 @@ public class ItemController {
     public @ResponseBody
     ItemDTO create(@RequestBody @Valid ItemDTO itemDTO) {
         return itemService.create(itemDTO);
+    }
+
+    @Transactional
+    public void deleteById(long id) {
+        itemService.delete(id);
     }
 }
