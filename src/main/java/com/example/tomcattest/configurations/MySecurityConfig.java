@@ -42,7 +42,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/authenticate/**");
+        web.ignoring().antMatchers("/authenticate/**"); //we have access in any info with authenticate...
     }
 
     @Bean

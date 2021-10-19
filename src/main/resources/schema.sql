@@ -1,8 +1,8 @@
 CREATE DATABASE MYSTERIOUS_DATABASE;
 CREATE TABLE "group"
 (
-    id     INT PRIMARY KEY,
-    name   varchar(255) NOT NULL,
+    id        INT PRIMARY KEY,
+    name      varchar(255) NOT NULL,
     parentDTO INT REFERENCES "group" (id)
 );
 ALTER TABLE "group"
@@ -37,41 +37,46 @@ CREATE TABLE basket
 
 CREATE TABLE items_baskets
 (
-    item_id  INT REFERENCES item (id),
+    item_id   INT REFERENCES item (id),
     basket_id INT REFERENCES basket (id),
-    id       INT PRIMARY KEY,
+    id        INT PRIMARY KEY,
     CONSTRAINT item FOREIGN KEY (basket_id) References item (id),
     CONSTRAINT "group" FOREIGN KEY (item_id) References basket (id)
 );
 
-CREATE TABLE users (
-                       username varchar(15),
-                       password varchar(100),
-                       enabled tinyint(1),
-                       PRIMARY KEY (username)
-) ;
+CREATE TABLE users
+(
+    username varchar(15),
+    password varchar(100),
+    PRIMARY KEY (username)
+);
 
-CREATE TABLE authorities (
-                             username varchar(15),
-                             authority varchar(25),
-                             FOREIGN KEY (username) references users(username)
-) ;
+CREATE TABLE authorities
+(
+    username  varchar(15),
+    authority varchar(25),
+    FOREIGN KEY (username) references users (username)
+);
 
-INSERT INTO users (username, password, enabled)
-VALUES
-    ('zaur', '{noop}zaur', 1),
-    ('elena', '{noop}elena', 1),
-    ('ivan', '{noop}ivan', 1);
+INSERT INTO users (username, password)
+VALUES ('user', '{bcrypt}'),
+       ('admin', '{bcrypt}');
 
 INSERT INTO authorities (username, authority)
-VALUES
-    ('zaur', 'ROLE_EMPLOYEE'),
-    ('elena', 'ROLE_HR'),
-    ('ivan', 'ROLE_HR'),
-    ('ivan', 'ROLE_MANAGER');
+VALUES ('user', 'ROLE_USER'),
+       ('admin', 'ROLE_ADMIN');
+UPDATE users
+set password = '$2a$10$IvzABIClU.1fSA0tKc9FCeoFNGKu7Fdq2YBXQNKmu.JxbuWaXDkdu'
+where username = 'user';
 
---DROP DATABASE MYSTERIOUS_DATABASE;
+UPDATE users
+set password = '$2a$10$KvNJt9fmsBaagOMYiGrKH.B4TNf.3/9mAaqjAh9vyinqk0X3tZcSO'
+where username = 'admin';
+
+-- DROP DATABASE MYSTERIOUS_DATABASE;
 --DROP TABLE items_groups;
 --DROP TABLE "group";
 --DROP TABLE item;
 --DROP TABLE configuration;
+-- DROP TABLE users;
+-- DROP TABLE authorities;
