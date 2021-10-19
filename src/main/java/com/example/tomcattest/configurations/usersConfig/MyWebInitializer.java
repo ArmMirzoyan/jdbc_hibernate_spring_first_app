@@ -1,6 +1,5 @@
 package com.example.tomcattest.configurations.usersConfig;
 
-import com.example.tomcattest.configurations.AppConfigurations;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class MyWebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -11,7 +10,7 @@ public class MyWebInitializer extends AbstractAnnotationConfigDispatcherServletI
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{AppConfigurations.class};
+        return new Class[]{HibernateConfiguration.class};
     }
 
     @Override
